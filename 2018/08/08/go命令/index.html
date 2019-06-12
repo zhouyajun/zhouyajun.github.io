@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '39BZZGUXU7',
+      apiKey: '2c9c9e3d03ba2afe2b550b3ac59c0947',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果 （用时${time} ms)"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="GO 命令go build说明这个命令主要用于编译代码。  如果是普通包（不是main包） go build 命令不会生成任何文件 如果是main包，go build命令会在当前目录（执行命令的目录）生成二进制文件 如果某个项目文件夹下有多个文件，而你只想编译某个文件，就可在go build之后加上文件名，例如go build a.go；go build命令默认会编译当前目录下的所有go文件 go">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go命令">
+<meta property="og:url" content="http://blog.zhouyajun.cn/2018/08/08/go命令/index.html">
+<meta property="og:site_name" content="zyj&#39;s Blog">
+<meta property="og:description" content="GO 命令go build说明这个命令主要用于编译代码。  如果是普通包（不是main包） go build 命令不会生成任何文件 如果是main包，go build命令会在当前目录（执行命令的目录）生成二进制文件 如果某个项目文件夹下有多个文件，而你只想编译某个文件，就可在go build之后加上文件名，例如go build a.go；go build命令默认会编译当前目录下的所有go文件 go">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-04T03:31:43.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go命令">
+<meta name="twitter:description" content="GO 命令go build说明这个命令主要用于编译代码。  如果是普通包（不是main包） go build 命令不会生成任何文件 如果是main包，go build命令会在当前目录（执行命令的目录）生成二进制文件 如果某个项目文件夹下有多个文件，而你只想编译某个文件，就可在go build之后加上文件名，例如go build a.go；go build命令默认会编译当前目录下的所有go文件 go">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zyj's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.zhouyajun.cn/2018/08/08/go命令/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>go命令 | zyj's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zyj's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhouyajun.cn/2018/08/08/go命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZYJ">
+      <meta itemprop="description" content="代码改变世界">
+      <meta itemprop="image" content="/img/kd.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zyj's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">go命令
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-08 14:11:51" itemprop="dateCreated datePublished" datetime="2018-08-08T14:11:51+08:00">2018-08-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 11:31:43" itemprop="dateModified" datetime="2019-06-04T11:31:43+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/08/go命令/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/08/go命令/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="GO-命令"><a href="#GO-命令" class="headerlink" title="GO 命令"></a>GO 命令</h2><h3 id="go-build"><a href="#go-build" class="headerlink" title="go build"></a>go build</h3><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p>这个命令主要用于编译代码。</p>
+<ol>
+<li>如果是普通包（不是main包） <code>go build</code> 命令不会生成任何文件</li>
+<li>如果是main包，<code>go build</code>命令会在当前目录（执行命令的目录）生成二进制文件</li>
+<li>如果某个项目文件夹下有多个文件，而你只想编译某个文件，就可在go build之后加上文件名，例如go build a.go；go build命令默认会编译当前目录下的所有go文件</li>
+<li><code>go build</code>后面跟目录，是相对于GOPATH下的src目录，例如：<code>go build hello</code>,找的是$GOPATH/src/hello目录</li>
+<li><code>go build</code> 不会递归编译，只会编译当前目录</li>
+<li><code>go build</code>会忽略目录下以“_”或“.”开头的go文件<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><code>-i</code>:编译同时安装相应的包= build +install<br><code>-o</code>:编译同时指定生成的文件名<br><code>-n</code>:把需要执行的编译命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的<br><code>-x</code>:打印出来执行的命令，其实就是和-n的结果类似，只是这个会执行<br><code>-v</code> 打印出来我们正在编译的包名<br><code>-compiler name</code> 指定相应的编译器，gccgo还是gc</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="go-clean"><a href="#go-clean" class="headerlink" title="go clean"></a>go clean</h3><h4 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h4><p>这个命令是用来移除当前源码包和关联源码包里面编译生成的文件。</p>
+<h4 id="常用参数-1"><a href="#常用参数-1" class="headerlink" title="常用参数"></a>常用参数</h4><p><code>-i</code> 清除关联的安装的包和可运行文件，也就是通过go install安装的文件<br><code>-n</code> 把需要执行的清除命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的<br><code>-r</code> 循环的清除在import中引入的包<br><code>-x</code> 打印出来执行的详细命令，其实就是-n打印的执行版本</p>
+<h3 id="go-install"><a href="#go-install" class="headerlink" title="go install"></a>go install</h3><h4 id="说明-2"><a href="#说明-2" class="headerlink" title="说明"></a>说明</h4><p>这个命令在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者.a包)，第二步会把编译好的结果移到<code>$GOPATH/pkg</code>或者<code>$GOPATH/bin</code>中。</p>
+<h4 id="常用参数-2"><a href="#常用参数-2" class="headerlink" title="常用参数"></a>常用参数</h4><p><code>-i</code>:编译同时安装相应的包= build +install<br><code>-o</code>:编译同时指定生成的文件名<br><code>-n</code>:把需要执行的编译命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的<br><code>-x</code>:打印出来执行的命令，其实就是和-n的结果类似，只是这个会执行<br><code>-v</code> 打印出来我们正在编译的包名<br><code>-compiler name</code> 指定相应的编译器，gccgo还是gc</p>
+<h3 id="go-fmt"><a href="#go-fmt" class="headerlink" title="go fmt"></a>go fmt</h3><h4 id="说明-3"><a href="#说明-3" class="headerlink" title="说明"></a>说明</h4><p>使用go fmt命令，其实是调用了gofmt，而且需要参数-w，否则格式化结果不会写入文件。<code>gofmt -w -l src</code>，可以格式化整个项目。</p>
+<h4 id="gofmt参数说明"><a href="#gofmt参数说明" class="headerlink" title="gofmt参数说明"></a>gofmt参数说明</h4><p><code>-l</code> 显示那些需要格式化的文件<br><code>-w</code> 把改写后的内容直接写入到文件中，而不是作为结果打印到标准输出。<br><code>-r</code> 添加形如“a[b:len(a)] -&gt; a[b:]”的重写规则，方便我们做批量替换<br><code>-s</code> 简化文件中的代码<br><code>-d</code> 显示格式化前后的diff而不是写入文件，默认是false<br><code>-e</code> 打印所有的语法错误到标准输出。如果不使用此标记，则只会打印不同行的前10个错误。<br><code>-cpuprofile</code> 支持调试模式，写入相应的cpufile到指定的文件</p>
+<h3 id="go-get"><a href="#go-get" class="headerlink" title="go get"></a>go get</h3><h4 id="说明-4"><a href="#说明-4" class="headerlink" title="说明"></a>说明</h4><p>这个命令是用来动态获取远程代码包的，目前支持的有<code>BitBucket</code>、<code>GitHub</code>、<code>Google Code</code>和<code>Launchpad</code>。这个命令在内部实际上分成了两步操作：第一步是<code>下载源码包</code>，第二步是执行<code>go install</code></p>
+<p>####参数介绍：</p>
+<p><code>-d</code> 只下载不安装<br><code>-f</code> 只有在你包含了-u参数的时候才有效，不让-u去验证import中的每一个都已经获取了，这对于本地fork的包特别有用<br><code>-fix</code> 在获取源码之后先运行fix，然后再去做其他的事情<br><code>-t</code> 同时也下载需要为运行测试所需要的包<br><code>-u</code>强制使用网络去更新包和它的依赖包<br><code>-v</code> 显示执行的命令</p>
+<h3 id="godoc"><a href="#godoc" class="headerlink" title="godoc"></a>godoc</h3><p>####说明<br>在Go1.2版本之前还支持go doc命令，但是之后全部移到了godoc这个命令下，需要这样安装<code>go get golang.org/x/tools/cmd/godoc</code></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ol>
+<li><p>查看包里的函数列表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">godoc net/http</span><br><span class="line">godoc fmt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看函数说明</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">godoc fmt Printf</span><br><span class="line">godoc fmt Sprintf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用本地在线文档</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">godoc -http=:8181</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后打开<code>127.0.0.1:8181</code>访问本地文档</p>
+<h3 id="go-test"><a href="#go-test" class="headerlink" title="go test"></a>go test</h3><h4 id="说明-5"><a href="#说明-5" class="headerlink" title="说明"></a>说明</h4><p>执行这个命令，会自动读取源码目录下面名为<code>*_test.go</code>的文件，生成并运行测试用的可执行文件<br>默认的情况下，不需要任何的参数，它会自动把你源码包下面所有test文件测试完毕</p>
+<h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><p><code>-bench regexp</code> 执行相应的benchmarks，例如 -bench=.<br><code>-cover</code> 开启测试覆盖率<br><code>-run regexp</code> 只运行regexp匹配的函数，例如 -run=Array 那么就执行包含有Array开头的函数<br><code>-v</code> 显示测试的详细命令</p>
+<h3 id="go-generate"><a href="#go-generate" class="headerlink" title="go generate"></a>go generate</h3><h4 id="说明-6"><a href="#说明-6" class="headerlink" title="说明"></a>说明</h4><p>这个命令是从Go1.4开始才设计的，用于在编译前自动化生成某类代码。go generate和go build是完全不一样的命令，通过分析源码中特殊的注释，然后执行相应的命令。这些命令都是很明确的，没有任何的依赖在里面。而且大家在用这个之前心里面一定要有一个理念，这个go generate是给你用的，不是给使用你这个包的人用的，是方便你来生成一些代码的</p>
+<h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><p>这里我们来举一个简单的例子，例如我们经常会使用yacc来生成代码，那么我们常用这样的命令：</p>
+<p><code>go tool yacc -o gopher.go -p parser gopher.y</code><br>-o 指定了输出的文件名， -p指定了package的名称，这是一个单独的命令，如果我们想让go generate来触发这个命令，那么就可以在当然目录的任意一个xxx.go文件里面的任意位置增加一行如下的注释：</p>
+<p><code>//go:generate go tool yacc -o gopher.go -p parser gopher.y</code><br>这里我们注意了，<code>//go:generate</code>是没有任何空格的，这其实就是一个固定的格式，在扫描源码文件的时候就是根据这个来判断的。</p>
+<p>所以我们可以通过如下的命令来生成，编译，测试。如果gopher.y文件有修改，那么就重新执行go generate重新生成文件就好。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go generate</span><br><span class="line">go build</span><br><span class="line">go <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><ol>
+<li><code>go env</code> 查看当前go的环境变量</li>
+<li><code>go version</code> 查看当前go版本</li>
+<li><code>go list</code> 列出当前全部安装的package</li>
+<li><code>go run</code>编译并运行Go程序</li>
+<li><code>go help 命令</code> 获取命令帮助</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechatpay.jpg" alt="ZYJ 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.jpg" alt="ZYJ 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/07/go语言学习接口与方法/" rel="next" title="go语言学习接口与方法">
+                <i class="fa fa-chevron-left"></i> go语言学习接口与方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/09/go基础巩固/" rel="prev" title="go基础巩固">
+                go基础巩固 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/kd.jpg" alt="ZYJ">
+            
+              <p class="site-author-name" itemprop="name">ZYJ</p>
+              <p class="site-description motion-element" itemprop="description">代码改变世界</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GO-命令"><span class="nav-number">1.</span> <span class="nav-text">GO 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#go-build"><span class="nav-number">1.1.</span> <span class="nav-text">go build</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明"><span class="nav-number">1.1.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用参数"><span class="nav-number">1.1.2.</span> <span class="nav-text">常用参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-clean"><span class="nav-number">1.2.</span> <span class="nav-text">go clean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用参数-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">常用参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-install"><span class="nav-number">1.3.</span> <span class="nav-text">go install</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用参数-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">常用参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-fmt"><span class="nav-number">1.4.</span> <span class="nav-text">go fmt</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gofmt参数说明"><span class="nav-number">1.4.2.</span> <span class="nav-text">gofmt参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-get"><span class="nav-number">1.5.</span> <span class="nav-text">go get</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#godoc"><span class="nav-number">1.6.</span> <span class="nav-text">godoc</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">1.6.1.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-test"><span class="nav-number">1.7.</span> <span class="nav-text">go test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-5"><span class="nav-number">1.7.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数说明"><span class="nav-number">1.7.2.</span> <span class="nav-text">参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-generate"><span class="nav-number">1.8.</span> <span class="nav-text">go generate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说明-6"><span class="nav-number">1.8.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用说明"><span class="nav-number">1.8.2.</span> <span class="nav-text">使用说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他命令"><span class="nav-number">1.9.</span> <span class="nav-text">其他命令</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZYJ</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'elxcKDUsVTgzLhhKNvMduwN3-9Nh9j0Va',
+      appKey: 'zdnLjAL0RoknTrvJxmGzHYxV',
+      placeholder: '请填写评论',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

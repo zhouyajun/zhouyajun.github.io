@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '39BZZGUXU7',
+      apiKey: '2c9c9e3d03ba2afe2b550b3ac59c0947',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果 （用时${time} ms)"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="参考文档：扫普通二维码打开小程序 扫普通链接二维码打开小程序为了方便小程序开发者更便捷地推广小程序，兼容线下已有的二维码，微信公众平台开放扫描普通链接二维码跳转小程序能力。 功能介绍普通链接二维码，是指开发者使用工具对网页链接进行编码后生成的二维码。 线下商户可不需更换线下二维码，在小程序后台完成配置后，即可在用户扫描普通链接二维码时打开小程序，使用小程序的功能。 对于普通链接二维码，目前支持使用">
+<meta name="keywords" content="小程序,微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="扫码打开小程序指南">
+<meta property="og:url" content="http://blog.zhouyajun.cn/2018/07/17/扫码打开小程序指南/index.html">
+<meta property="og:site_name" content="zyj&#39;s Blog">
+<meta property="og:description" content="参考文档：扫普通二维码打开小程序 扫普通链接二维码打开小程序为了方便小程序开发者更便捷地推广小程序，兼容线下已有的二维码，微信公众平台开放扫描普通链接二维码跳转小程序能力。 功能介绍普通链接二维码，是指开发者使用工具对网页链接进行编码后生成的二维码。 线下商户可不需更换线下二维码，在小程序后台完成配置后，即可在用户扫描普通链接二维码时打开小程序，使用小程序的功能。 对于普通链接二维码，目前支持使用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode0.png?t=2018413">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode1.png?t=2018413">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode5.png?t=2018413">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode3.png?t=2018413">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode7.png?t=2018413">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode4.png?t=2018413">
+<meta property="og:updated_time" content="2019-06-04T03:31:43.629Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="扫码打开小程序指南">
+<meta name="twitter:description" content="参考文档：扫普通二维码打开小程序 扫普通链接二维码打开小程序为了方便小程序开发者更便捷地推广小程序，兼容线下已有的二维码，微信公众平台开放扫描普通链接二维码跳转小程序能力。 功能介绍普通链接二维码，是指开发者使用工具对网页链接进行编码后生成的二维码。 线下商户可不需更换线下二维码，在小程序后台完成配置后，即可在用户扫描普通链接二维码时打开小程序，使用小程序的功能。 对于普通链接二维码，目前支持使用">
+<meta name="twitter:image" content="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode0.png?t=2018413">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zyj's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.zhouyajun.cn/2018/07/17/扫码打开小程序指南/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>扫码打开小程序指南 | zyj's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zyj's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhouyajun.cn/2018/07/17/扫码打开小程序指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZYJ">
+      <meta itemprop="description" content="代码改变世界">
+      <meta itemprop="image" content="/img/kd.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zyj's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">扫码打开小程序指南
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-17 09:25:58" itemprop="dateCreated datePublished" datetime="2018-07-17T09:25:58+08:00">2018-07-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 11:31:43" itemprop="dateModified" datetime="2019-06-04T11:31:43+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/17/扫码打开小程序指南/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/17/扫码打开小程序指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>参考文档：</strong><a href="https://developers.weixin.qq.com/miniprogram/introduction/qrcode.html#%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">扫普通二维码打开小程序</a></p>
+<h3 id="扫普通链接二维码打开小程序"><a href="#扫普通链接二维码打开小程序" class="headerlink" title="扫普通链接二维码打开小程序"></a>扫普通链接二维码打开小程序</h3><p>为了方便小程序开发者更便捷地推广小程序，兼容线下已有的二维码，微信公众平台开放扫描普通链接二维码跳转小程序能力。</p>
+<h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>普通链接二维码，是指开发者使用工具对网页链接进行编码后生成的二维码。</p>
+<p>线下商户可不需更换线下二维码，在小程序后台完成配置后，即可在用户扫描普通链接二维码时打开小程序，使用小程序的功能。</p>
+<p>对于普通链接二维码，目前支持使用微信“扫一扫”或微信内长按识别二维码跳转小程序。</p>
+<a id="more"></a>
+<h3 id="开放范围"><a href="#开放范围" class="headerlink" title="开放范围"></a>开放范围</h3><p>企业、媒体、政府及其他组织类型小程序。<br><strong>注意：</strong>个人小程序<strong>不支持</strong></p>
+<h3 id="二维码跳转规则"><a href="#二维码跳转规则" class="headerlink" title="二维码跳转规则"></a>二维码跳转规则</h3><p><strong>注意：</strong>从2017年5月开始，微信客户端支持二维码规则根据“子路径匹配”。如原有现在二维码链接为 <a href="http://www.qq.com/a/123456" target="_blank" rel="noopener">http://www.qq.com/a/123456</a> ,其中12345为业务参数，则可配置规则 <a href="http://www.qq.com/a/" target="_blank" rel="noopener">http://www.qq.com/a/</a> 实现扫码打开小程序。</p>
+<h5 id="微信客户端扫码将按以下匹配规则控制跳转："><a href="#微信客户端扫码将按以下匹配规则控制跳转：" class="headerlink" title="微信客户端扫码将按以下匹配规则控制跳转："></a><strong>微信客户端扫码将按以下匹配规则控制跳转：</strong></h5><ol>
+<li>二维码链接的协议、域名与已配置的二维码规则一致。</li>
+<li>二维码链接属于后台配置的二维码规则的子路径。(如需支持子路径匹配，请确认后台配置的二维码规则以“/”结尾)</li>
+<li>如果二维码规则包含参数，链接“？”后为参数部分，参数要求前缀匹配</li>
+</ol>
+<p><strong>常见匹配错误类型：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">后台配置的二维码规则</th>
+<th align="left">线下二维码完整链接</th>
+<th align="left">错误原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a href="http://www.qq.com/a/b" target="_blank" rel="noopener">http://www.qq.com/a/b</a></td>
+<td align="left"><a href="https://www.qq.com/a/b" target="_blank" rel="noopener">https://www.qq.com/a/b</a></td>
+<td align="left">协议不一致</td>
+</tr>
+<tr>
+<td align="left"><a href="https://www.qq.com/a/b" target="_blank" rel="noopener">https://www.qq.com/a/b</a></td>
+<td align="left"><a href="https://www.weixin.qq.com/a/b" target="_blank" rel="noopener">https://www.weixin.qq.com/a/b</a></td>
+<td align="left">域名不一</td>
+</tr>
+<tr>
+<td align="left"><a href="https://www.qq.com/a/b?id=123" target="_blank" rel="noopener">https://www.qq.com/a/b?id=123</a></td>
+<td align="left"><a href="https://www.qq.com/a/b?id=132" target="_blank" rel="noopener">https://www.qq.com/a/b?id=132</a></td>
+<td align="left">参数不满足前缀匹配</td>
+</tr>
+<tr>
+<td align="left"><a href="https://www.qq.com/a/b" target="_blank" rel="noopener">https://www.qq.com/a/b</a></td>
+<td align="left"><a href="https://www.qq.com/a/bc" target="_blank" rel="noopener">https://www.qq.com/a/bc</a></td>
+<td align="left">不属于子路径</td>
+</tr>
+<tr>
+<td align="left"><a href="https://www.qq.com/a/b" target="_blank" rel="noopener">https://www.qq.com/a/b</a></td>
+<td align="left"><a href="https://www.qq.com/a/b/123" target="_blank" rel="noopener">https://www.qq.com/a/b/123</a></td>
+<td align="left">规则没有以“/”结尾，不支持子路径匹配</td>
+</tr>
+</tbody></table>
+<h3 id="二维码内容获取"><a href="#二维码内容获取" class="headerlink" title="二维码内容获取"></a>二维码内容获取</h3><p>在小程序后台配置二维码跳转小程序规则之后即可使用微信（6.5.6及其以上客户端版本）扫码打开小程序。</p>
+<p>二维码链接内容会以参数q的形式带给页面，在onLoad事件中提取”q”参数并自行UrlDecode一次，即可获取原二维码的完整内容。</p>
+<h3 id="配置流程"><a href="#配置流程" class="headerlink" title="配置流程"></a>配置流程</h3><p>登录小程序后台，进入“设置-开发设置-扫普通链接二维码打开小程序”，开启功能后即可配置二维码规则。<br><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode0.png?t=2018413" alt="开发设置"><br><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode1.png?t=2018413" alt="扫普通链接二维码打开小程序"></p>
+<h3 id="二维码规则"><a href="#二维码规则" class="headerlink" title="二维码规则"></a>二维码规则</h3><p><strong>根据二维码跳转规则，开发者需要填写跳转小程序的二维码规则要求如下：</strong></p>
+<ol>
+<li>二维码规则的域名必须通过<strong>ICP 备案</strong>的验证。</li>
+<li>支持<strong>http</strong>、<strong>https</strong>、<strong>ftp</strong>开头的链接</li>
+<li>一个小程序账号可配置不多于<strong>10</strong>个的二维码前缀规则。</li>
+</ol>
+<h3 id="前缀占用规则"><a href="#前缀占用规则" class="headerlink" title="前缀占用规则"></a>前缀占用规则</h3><p>开发者可选择是否占用符合二维码匹配规则的所有子规则。如选择占用，则其他帐号不可申请使用满足该前缀匹配规则的其他子规则。</p>
+<p>如：若开发者A配置二维码规则：<a href="https://wx.qq.com/mp?id=123，并选择“占用所有子规则“，其他开发者将不可以配置满足前缀匹配的子规则如https://wx.qq.com/mp?id=1234。" target="_blank" rel="noopener">https://wx.qq.com/mp?id=123，并选择“占用所有子规则“，其他开发者将不可以配置满足前缀匹配的子规则如https://wx.qq.com/mp?id=1234。</a><br><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode5.png?t=2018413" alt="小程序前缀占用"></p>
+<p><strong>注意：如提示“此规则已被占用”，请联系对应小程序开发者沟通解决。</strong></p>
+<h3 id="校验文件"><a href="#校验文件" class="headerlink" title="校验文件"></a>校验文件</h3><p>下载随机校验文件，并将文件上传至服务器指定位置的目录下，方可通过所属权校验。</p>
+<p><strong>验证文件放置规则</strong>： 放置于URL中声明的最后一级子目录下，若无子目录，则放置于host所属服务器的顶层目录下。请根据页面提示将验证文件放置在指定的目录下。</p>
+<p><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode3.png?t=2018413" alt="配置二维码规则"></p>
+<h3 id="小程序功能页面"><a href="#小程序功能页面" class="headerlink" title="小程序功能页面"></a>小程序功能页面</h3><p>配置扫描二维码后打开的小程序功能页面路径，如：pages/index/index。</p>
+<h3 id="测试调试"><a href="#测试调试" class="headerlink" title="测试调试"></a>测试调试</h3><p>开发者可对已配置的二维码规则进行测试和调试。<br>测试仅对指定的测试链接和测试范围内的微信用户生效，其他用户扫码后跳转网页，不影响全网用户正常使用。在二维码规则发布后，开发者仍然可以选择在指定版本（开发版/体验版/线上版本）下测试。</p>
+<h3 id="测试范围"><a href="#测试范围" class="headerlink" title="测试范围"></a>测试范围</h3><p>开发者可根据开发进度选择在开发板/体验版/线上版本测试“普通二维码跳转小程序”的功能。<br><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode7.png?t=2018413" alt="测试范围"></p>
+<h3 id="测试链接"><a href="#测试链接" class="headerlink" title="测试链接"></a>测试链接</h3><p>填写符合二维码前缀匹配规则的二维码完整链接用于测试，如包括参数，请完整填写。</p>
+<p>一个规则可以填写不多于<strong>5</strong>个测试链接，可多次修改。若二维码与测试链接匹配，且用户微信号是小程序指定的管理员/开发者/体验者，将打开指定版本的小程序。</p>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>测试完成后开发者可将二维码跳转规则发布现网，发布后扫描所有符合匹配规则的二维码，将跳转至指定的小程序页面。</p>
+<p><img src="https://mp.weixin.qq.com/debug/wxadoc/introduction/image/qrcode4.png?t=2018413" alt="发布二维码地址"></p>
+<p><strong>注意：</strong></p>
+<ol>
+<li><p>为确保用户体验，小程序必须先发布代码才可以发布二维码跳转规则。</p>
+</li>
+<li><p>一个小程序帐号一个月可发布不多于20次二维码跳转规则。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechatpay.jpg" alt="ZYJ 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.jpg" alt="ZYJ 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/微信/" rel="tag"># 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/16/小程序客服功能使用指南/" rel="next" title="小程序客服功能使用指南">
+                <i class="fa fa-chevron-left"></i> 小程序客服功能使用指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/18/小程序开发快捷键/" rel="prev" title="小程序开发快捷键">
+                小程序开发快捷键 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/kd.jpg" alt="ZYJ">
+            
+              <p class="site-author-name" itemprop="name">ZYJ</p>
+              <p class="site-description motion-element" itemprop="description">代码改变世界</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#扫普通链接二维码打开小程序"><span class="nav-number">1.</span> <span class="nav-text">扫普通链接二维码打开小程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#功能介绍"><span class="nav-number">2.</span> <span class="nav-text">功能介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开放范围"><span class="nav-number">3.</span> <span class="nav-text">开放范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维码跳转规则"><span class="nav-number">4.</span> <span class="nav-text">二维码跳转规则</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#微信客户端扫码将按以下匹配规则控制跳转："><span class="nav-number">4.0.1.</span> <span class="nav-text">微信客户端扫码将按以下匹配规则控制跳转：</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#二维码内容获取"><span class="nav-number">5.</span> <span class="nav-text">二维码内容获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置流程"><span class="nav-number">6.</span> <span class="nav-text">配置流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维码规则"><span class="nav-number">7.</span> <span class="nav-text">二维码规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀占用规则"><span class="nav-number">8.</span> <span class="nav-text">前缀占用规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验文件"><span class="nav-number">9.</span> <span class="nav-text">校验文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小程序功能页面"><span class="nav-number">10.</span> <span class="nav-text">小程序功能页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试调试"><span class="nav-number">11.</span> <span class="nav-text">测试调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试范围"><span class="nav-number">12.</span> <span class="nav-text">测试范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试链接"><span class="nav-number">13.</span> <span class="nav-text">测试链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布"><span class="nav-number">14.</span> <span class="nav-text">发布</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZYJ</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'elxcKDUsVTgzLhhKNvMduwN3-9Nh9j0Va',
+      appKey: 'zdnLjAL0RoknTrvJxmGzHYxV',
+      placeholder: '请填写评论',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

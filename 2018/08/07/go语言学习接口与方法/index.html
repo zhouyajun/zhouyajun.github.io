@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '39BZZGUXU7',
+      apiKey: '2c9c9e3d03ba2afe2b550b3ac59c0947',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果 （用时${time} ms)"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="方法Go 没有类。不过你可以为结构体类型定义方法。方法就是一类带特殊的 接收者 参数的函数。方法接收者在它自己的参数列表内，位于 func 关键字和方法名之间。 12345678910type v struct &amp;#123;	x, y int	&amp;#125;func (test v) Abs() int&amp;#123;	return math.Sqrt(v.x*v.x + v.y*v.y)&amp;#125;/">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言学习接口与方法">
+<meta property="og:url" content="http://blog.zhouyajun.cn/2018/08/07/go语言学习接口与方法/index.html">
+<meta property="og:site_name" content="zyj&#39;s Blog">
+<meta property="og:description" content="方法Go 没有类。不过你可以为结构体类型定义方法。方法就是一类带特殊的 接收者 参数的函数。方法接收者在它自己的参数列表内，位于 func 关键字和方法名之间。 12345678910type v struct &amp;#123;	x, y int	&amp;#125;func (test v) Abs() int&amp;#123;	return math.Sqrt(v.x*v.x + v.y*v.y)&amp;#125;/">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-04T03:31:43.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go语言学习接口与方法">
+<meta name="twitter:description" content="方法Go 没有类。不过你可以为结构体类型定义方法。方法就是一类带特殊的 接收者 参数的函数。方法接收者在它自己的参数列表内，位于 func 关键字和方法名之间。 12345678910type v struct &amp;#123;	x, y int	&amp;#125;func (test v) Abs() int&amp;#123;	return math.Sqrt(v.x*v.x + v.y*v.y)&amp;#125;/">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zyj's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.zhouyajun.cn/2018/08/07/go语言学习接口与方法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>go语言学习接口与方法 | zyj's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zyj's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhouyajun.cn/2018/08/07/go语言学习接口与方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZYJ">
+      <meta itemprop="description" content="代码改变世界">
+      <meta itemprop="image" content="/img/kd.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zyj's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">go语言学习接口与方法
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-07 22:03:01" itemprop="dateCreated datePublished" datetime="2018-08-07T22:03:01+08:00">2018-08-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 11:31:43" itemprop="dateModified" datetime="2019-06-04T11:31:43+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/07/go语言学习接口与方法/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/07/go语言学习接口与方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><h5 id="Go-没有类。不过你可以为结构体类型定义方法。"><a href="#Go-没有类。不过你可以为结构体类型定义方法。" class="headerlink" title="Go 没有类。不过你可以为结构体类型定义方法。"></a>Go 没有类。不过你可以为结构体类型定义方法。</h5><p>方法就是一类带特殊的 接收者 参数的函数。<br>方法接收者在它自己的参数列表内，位于 func 关键字和方法名之间。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> v <span class="keyword">struct</span> &#123;</span><br><span class="line">	x, y <span class="keyword">int</span>	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(test v)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">int</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> math.Sqrt(v.x*v.x + v.y*v.y)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">test := v&#123;<span class="number">1</span>,<span class="number">2</span>&#125;</span><br><span class="line">test.Abs()</span><br></pre></td></tr></table></figure>
+
+<p><strong>记住：方法只是个带接收者参数的函数。</strong></p>
+<h5 id="你也可以为非结构体类型声明方法。"><a href="#你也可以为非结构体类型声明方法。" class="headerlink" title="你也可以为非结构体类型声明方法。"></a>你也可以为非结构体类型声明方法。</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyFloat <span class="keyword">float64</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f MyFloat)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">float64</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> f&lt;<span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">float64</span>(-f)</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">float64</span>(f)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">f := MyFloat(-math.Sqrt2)</span><br><span class="line">f.Abs()</span><br></pre></td></tr></table></figure>
+
+<h5 id="指针接收者"><a href="#指针接收者" class="headerlink" title="指针接收者"></a>指针接收者</h5><p>你可以为指针接收者声明方法。<br>这意味着对于某类型 T，接收者的类型可以用 *T 的文法。<br>指针接收者的方法可以修改接收者指向的值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"math"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">type</span> Vertex <span class="keyword">struct</span> &#123;</span><br><span class="line">	X, Y <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v Vertex)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> math.Sqrt(v.X*v.X + v.Y*v.Y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v *Vertex)</span> <span class="title">Scale</span><span class="params">(f <span class="keyword">float64</span>)</span></span> &#123;</span><br><span class="line">	v.X = v.X * f</span><br><span class="line">	v.Y = v.Y * f</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	v := Vertex&#123;<span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">	fmt.Println(v.Abs())</span><br><span class="line">	v.Scale(<span class="number">10</span>)</span><br><span class="line">	fmt.Println(v.Abs())</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="方法与指针重定向"><a href="#方法与指针重定向" class="headerlink" title="方法与指针重定向"></a>方法与指针重定向</h5><p>带指针参数的函数必须接受一个指针<br>以指针为接收者的方法被调用时，接收者既能为值又能为指针</p>
+<p>接受一个值作为参数的函数必须接受一个指定类型的值<br>而以值为接收者的方法被调用时，接收者既能为值又能为指针</p>
+<h5 id="选择值或指针作为接收者"><a href="#选择值或指针作为接收者" class="headerlink" title="选择值或指针作为接收者"></a>选择值或指针作为接收者</h5><p>使用指针接收者的原因有二：</p>
+<p>首先，方法能够修改其接收者指向的值。</p>
+<p>其次，这样可以避免在每次调用方法时复制该值。若值的类型为大型结构体时，这样做会更加高效</p>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>接口类型 是有一组方法签名定义的集合<br>接口类型的变量可以保存任何实现了这些方法的值</p>
+<h5 id="接口与隐式实现"><a href="#接口与隐式实现" class="headerlink" title="接口与隐式实现"></a>接口与隐式实现</h5><p>类型通过实现一个接口的所有方法来实现该接口<br>隐式接口从接口的实现中解耦了定义，这样接口的实现可以出现在任何包中，无需提前准备<br>因此，也就无需在每一个实现上增加新的接口名称，这样同时也鼓励了明确的接口定义<br>在内部，接口值可以看做包含值和具体类型的元组：<br>(value, type)<br>接口值保存了一个具体底层类型的具体值<br>接口值调用方法时会执行其底层类型的同名方法</p>
+<h5 id="底层值为-nil-的接口值"><a href="#底层值为-nil-的接口值" class="headerlink" title="底层值为 nil 的接口值"></a>底层值为 nil 的接口值</h5><p>即便接口内的具体值为 nil，方法仍然会被 nil 接收者调用。</p>
+<p>在一些语言中，这会触发一个空指针异常，但在 Go 中通常会写一些方法来优雅地处理它（如本例中的 M 方法）。</p>
+<p>注意： 保存了 nil 具体值的接口其自身并不为 nil。</p>
+<h5 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h5><p>指定了零个方法的接口值被称为 空接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>空接口可保存任何类型的值。（因为每个类型都至少实现了零个方法。）<br>空接口被用来处理未知类型的值。例如，fmt.Print 可接受类型为 interface{} 的任意数量的参数。</p>
+<h5 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h5><p><strong>类型断言</strong>提供了访问接口值底层具体值的方式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t := i.(T)</span><br><span class="line"><span class="comment">//t为接口底层的值</span></span><br><span class="line">t,ok := i.(T)</span><br><span class="line"><span class="comment">//ok返回ture或者false</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="类型选择"><a href="#类型选择" class="headerlink" title="类型选择"></a>类型选择</h5><p>类型选择 是一种按顺序从几个类型断言中选择分支的结构。</p>
+<p>类型选择与一般的 switch 语句相似，不过类型选择中的 case 为类型（而非值）， 它们针对给定接口值所存储的值的类型进行比较。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> v := i.(<span class="keyword">type</span>)&#123; <span class="comment">//注意：type为关键字</span></span><br><span class="line">	<span class="keyword">case</span> T:</span><br><span class="line">	    <span class="comment">// v 的类型为 T</span></span><br><span class="line">	<span class="keyword">case</span> S:</span><br><span class="line">	    <span class="comment">// v 的类型为 S</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">	    <span class="comment">// 没有匹配，v 与 i 的类型相同</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型选择中的声明与类型断言 i.(T) 的语法相同，只是具体类型 T 被替换成了关键字 type。</p>
+<p>此选择语句判断接口值 i 保存的值类型是 T 还是 S。在 T 或 S 的情况下，变量 v 会分别按 T 或 S 类型保存 i 拥有的值。在默认（即没有匹配）的情况下，变量 v 与 i 的接口类型和值相同。</p>
+<h5 id="练习：Stringer"><a href="#练习：Stringer" class="headerlink" title="练习：Stringer"></a>练习：Stringer</h5><p>通过让 IPAddr 类型实现 fmt.Stringer 来打印点号分隔的地址。</p>
+<p>例如，IPAddr{1, 2, 3, 4} 应当打印为 “1.2.3.4”。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPAddr [<span class="number">4</span>]<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Add a "String() string" method to IPAddr.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ipAddr IPAddr)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">"%v.%v.%v.%v"</span>, ipAddr[<span class="number">0</span>], ipAddr[<span class="number">1</span>], ipAddr[<span class="number">2</span>], ipAddr[<span class="number">3</span>])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	hosts := <span class="keyword">map</span>[<span class="keyword">string</span>]IPAddr&#123;</span><br><span class="line">		<span class="string">"loopback"</span>:  &#123;<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">		<span class="string">"googleDNS"</span>: &#123;<span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> name, ip := <span class="keyword">range</span> hosts &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"%v: %v\n"</span>, name, ip)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h5><p>Go 程序使用 error 值来表示错误状态。</p>
+<p>与 fmt.Stringer 类似，error 类型是一个内建接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</span><br><span class="line">    Error() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（与 fmt.Stringer 类似，fmt 包在打印值时也会满足 error。）</p>
+<p>通常函数会返回一个 error 值，调用的它的代码应当判断这个错误是否等于 nil 来进行错误处理。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i, err := strconv.Atoi(<span class="string">"42"</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"couldn't convert number: %v\n"</span>, err)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(<span class="string">"Converted integer:"</span>, i)</span><br></pre></td></tr></table></figure>
+
+<p>error 为 nil 时表示成功；非 nil 的 error 表示失败。</p>
+<h5 id="Reader"><a href="#Reader" class="headerlink" title="Reader"></a>Reader</h5><p>io 包指定了 io.Reader 接口，它表示从数据流的末尾进行读取。</p>
+<p>Go 标准库包含了该接口的许多实现，包括文件、网络连接、压缩和加密等等。</p>
+<p>io.Reader 接口有一个 Read 方法：</p>
+<p>func (T) Read(b []byte) (n int, err error)<br>Read 用数据填充给定的字节切片并返回填充的字节数和错误值。在遇到数据流的结尾时，它会返回一个 io.EOF 错误。</p>
+<p>示例代码创建了一个 strings.Reader 并以每次 8 字节的速度读取它的输出。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechatpay.jpg" alt="ZYJ 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.jpg" alt="ZYJ 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/07/go语言学习更多类型结构体-数组，切片和映射/" rel="next" title="go语言学习更多类型结构体,数组，切片和映射">
+                <i class="fa fa-chevron-left"></i> go语言学习更多类型结构体,数组，切片和映射
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/08/go命令/" rel="prev" title="go命令">
+                go命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/kd.jpg" alt="ZYJ">
+            
+              <p class="site-author-name" itemprop="name">ZYJ</p>
+              <p class="site-description motion-element" itemprop="description">代码改变世界</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">1.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Go-没有类。不过你可以为结构体类型定义方法。"><span class="nav-number">1.1.</span> <span class="nav-text">Go 没有类。不过你可以为结构体类型定义方法。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#你也可以为非结构体类型声明方法。"><span class="nav-number">1.2.</span> <span class="nav-text">你也可以为非结构体类型声明方法。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#指针接收者"><span class="nav-number">1.3.</span> <span class="nav-text">指针接收者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法与指针重定向"><span class="nav-number">1.4.</span> <span class="nav-text">方法与指针重定向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选择值或指针作为接收者"><span class="nav-number">1.5.</span> <span class="nav-text">选择值或指针作为接收者</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口"><span class="nav-number">2.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#接口与隐式实现"><span class="nav-number">2.1.</span> <span class="nav-text">接口与隐式实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#底层值为-nil-的接口值"><span class="nav-number">2.2.</span> <span class="nav-text">底层值为 nil 的接口值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#空接口"><span class="nav-number">2.3.</span> <span class="nav-text">空接口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型断言"><span class="nav-number">2.4.</span> <span class="nav-text">类型断言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型选择"><span class="nav-number">2.5.</span> <span class="nav-text">类型选择</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#练习：Stringer"><span class="nav-number">2.6.</span> <span class="nav-text">练习：Stringer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#错误"><span class="nav-number">2.7.</span> <span class="nav-text">错误</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Reader"><span class="nav-number">2.8.</span> <span class="nav-text">Reader</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZYJ</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'elxcKDUsVTgzLhhKNvMduwN3-9Nh9j0Va',
+      appKey: 'zdnLjAL0RoknTrvJxmGzHYxV',
+      placeholder: '请填写评论',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

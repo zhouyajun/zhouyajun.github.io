@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '39BZZGUXU7',
+      apiKey: '2c9c9e3d03ba2afe2b550b3ac59c0947',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果 （用时${time} ms)"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 文件类型 .json 后缀的JSON 配置文件 .wxml 后缀的 WXML模版文件 .wxss 后缀的WXSS样式文件 .js  后缀的JS脚本逻辑文件  注意：为了方便开发者减少配置项，描述页面的四个文件必须具有相同的路径与文件名。 JSON配置小程序全局配置文件 app.jsonapp.json是对当前小程序的全局配置，包括了小程序的所有页面路径，界面表现，网络超时时间，底部tab等。">
+<meta name="keywords" content="小程序,微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序文件类型介绍">
+<meta property="og:url" content="http://blog.zhouyajun.cn/2018/07/19/小程序文件类型介绍/index.html">
+<meta property="og:site_name" content="zyj&#39;s Blog">
+<meta property="og:description" content="1. 文件类型 .json 后缀的JSON 配置文件 .wxml 后缀的 WXML模版文件 .wxss 后缀的WXSS样式文件 .js  后缀的JS脚本逻辑文件  注意：为了方便开发者减少配置项，描述页面的四个文件必须具有相同的路径与文件名。 JSON配置小程序全局配置文件 app.jsonapp.json是对当前小程序的全局配置，包括了小程序的所有页面路径，界面表现，网络超时时间，底部tab等。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://developers.weixin.qq.com/miniprogram/dev/image/tabbar.png?t=2018723">
+<meta property="og:updated_time" content="2019-06-04T03:31:43.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小程序文件类型介绍">
+<meta name="twitter:description" content="1. 文件类型 .json 后缀的JSON 配置文件 .wxml 后缀的 WXML模版文件 .wxss 后缀的WXSS样式文件 .js  后缀的JS脚本逻辑文件  注意：为了方便开发者减少配置项，描述页面的四个文件必须具有相同的路径与文件名。 JSON配置小程序全局配置文件 app.jsonapp.json是对当前小程序的全局配置，包括了小程序的所有页面路径，界面表现，网络超时时间，底部tab等。">
+<meta name="twitter:image" content="https://developers.weixin.qq.com/miniprogram/dev/image/tabbar.png?t=2018723">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zyj's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.zhouyajun.cn/2018/07/19/小程序文件类型介绍/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>小程序文件类型介绍 | zyj's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zyj's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhouyajun.cn/2018/07/19/小程序文件类型介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZYJ">
+      <meta itemprop="description" content="代码改变世界">
+      <meta itemprop="image" content="/img/kd.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zyj's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">小程序文件类型介绍
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-19 14:28:58" itemprop="dateCreated datePublished" datetime="2018-07-19T14:28:58+08:00">2018-07-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 11:31:43" itemprop="dateModified" datetime="2019-06-04T11:31:43+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/19/小程序文件类型介绍/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/07/19/小程序文件类型介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-文件类型"><a href="#1-文件类型" class="headerlink" title="1. 文件类型"></a>1. 文件类型</h3><ol>
+<li><strong>.json</strong> 后缀的JSON 配置文件</li>
+<li><strong>.wxml</strong> 后缀的 WXML模版文件</li>
+<li><strong>.wxss</strong> 后缀的WXSS样式文件</li>
+<li><strong>.js</strong>  后缀的JS脚本逻辑文件</li>
+</ol>
+<p><strong>注意：为了方便开发者减少配置项，描述页面的四个文件必须具有相同的路径与文件名。</strong></p>
+<h3 id="JSON配置"><a href="#JSON配置" class="headerlink" title="JSON配置"></a>JSON配置</h3><h4 id="小程序全局配置文件-app-json"><a href="#小程序全局配置文件-app-json" class="headerlink" title="小程序全局配置文件 app.json"></a>小程序全局配置文件 app.json</h4><p>app.json是对当前小程序的全局配置，包括了小程序的所有页面路径，界面表现，网络超时时间，底部tab等。</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">类型</th>
+<th align="center">必填</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>pages</strong></td>
+<td align="left">string Array</td>
+<td align="center">是</td>
+<td align="left">设置页面路径</td>
+</tr>
+<tr>
+<td align="left"><strong>windows</strong></td>
+<td align="left">object</td>
+<td align="center">否</td>
+<td align="left">设置默认页面的窗口表现</td>
+</tr>
+<tr>
+<td align="left"><strong>tabBar</strong></td>
+<td align="left">object</td>
+<td align="center">否</td>
+<td align="left">设置底部tab的表现</td>
+</tr>
+<tr>
+<td align="left"><strong>networkTimeout</strong></td>
+<td align="left">object</td>
+<td align="center">否</td>
+<td align="left">设置网络超时时间</td>
+</tr>
+<tr>
+<td align="left"><strong>debug</strong></td>
+<td align="left">boolean</td>
+<td align="center">否</td>
+<td align="left">设置是否开启debug模式</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+<h5 id="pages-属性"><a href="#pages-属性" class="headerlink" title="pages 属性"></a>pages 属性</h5><p>接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成。每一项代表对应页面的【路径+文件名】信息，<strong>数组的第一项代表小程序的初始页面。小程序中新增/减少页面，都需要对 pages 数组进行修改。</strong></p>
+<p><strong>文件名不需要写文件后缀</strong>，因为框架会自动去寻找路径下 .json, .js, .wxml, .wxss 四个文件进行整合。</p>
+<h5 id="windows属性"><a href="#windows属性" class="headerlink" title="windows属性"></a>windows属性</h5><p>|属性      | 类型 |  默认值  | 描述   |<br>| :——– | ——–: | :——–: | :——– |:——– |<br>| <strong>navigationBarBackgroundColor</strong> |HexColor|<code>#000000</code>|导航栏背景颜色，如”#000000”|<br>|<strong>navigationBarTextStyle</strong>|string|<code>white</code>|导航栏标题颜色，仅支持 black/white    |<br>|<strong>navigationBarTitleText</strong>|string||导航栏标题文字内容|<br>|<strong>navigationStyle</strong>|string|<code>default</code>|导航栏样式，仅支持 default/custom。custom 模式可自定义导航栏，只保留右上角胶囊状的按钮,<strong>微信版本6.6.0</strong>|
+|<strong>backgroundColor</strong>|HexColor|<code>#ffffff</code>|下拉窗口的背景色|<br>|<strong>backgroundTextStyle</strong>|string|<code>dark</code>|下拉loading的样式，仅支持dark/light|<br>|<strong>backgroundColorTop</strong>|string|<code>#ffffff</code>|顶部窗口的背景色，仅ios支持,<strong>微信版本6.5.16</strong>|
+|<strong>backgroundColorBottom</strong>|string|<code>#ffffff</code>|底部窗口的背景色，仅ios支持,<strong>微信版本6.5.16</strong>|
+|<strong>enablePullDownRefresh</strong>|Boolean|<code>false</code>|是否开启下拉刷新|<br>|<strong>onReachBottomDistance</strong>|Number|50|页面上拉触底事件触发时距页面底部距离，单位为px|</p>
+<p><strong>注：HexColor（十六进制颜色值），如”#ff00ff”</strong></p>
+<p><strong>注：navigationStyle 只在 app.json 中生效。开启 custom 后，低版本客户端需要做好兼容。开发者工具基础库版本切到 1.7.0（不代表最低版本，只供调试用） 可方便切到旧视觉</strong></p>
+<h5 id="tabBar属性"><a href="#tabBar属性" class="headerlink" title="tabBar属性"></a>tabBar属性</h5><p>如果小程序是一个多 tab 应用（客户端窗口的底部或顶部有 tab 栏可以切换页面），可以通过 tabBar 配置项指定 tab 栏的表现，以及 tab 切换时显示的对应页面。<br><strong>注意：</strong></p>
+<ol>
+<li>当设置position为top时，将不会显示icon</li>
+<li>tabBar中的list是一个数组，只能配置最少2个，最多5个,tab按数组的顺序排序</li>
+</ol>
+<p><strong>属性说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">类型</th>
+<th align="center">必填</th>
+<th align="left">默认中</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>color</strong></td>
+<td align="left">HexColor</td>
+<td align="center">是</td>
+<td align="left"></td>
+<td align="left">tab上文字默认颜色</td>
+</tr>
+<tr>
+<td align="left"><strong>selectColor</strong></td>
+<td align="left">HexColor</td>
+<td align="center">是</td>
+<td align="left"></td>
+<td align="left">tab上文字选中时的颜色</td>
+</tr>
+<tr>
+<td align="left"><strong>backgroundColor</strong></td>
+<td align="left">HexColor</td>
+<td align="center">是</td>
+<td align="left"></td>
+<td align="left">tab 的背景色</td>
+</tr>
+<tr>
+<td align="left"><strong>borderStyle</strong></td>
+<td align="left">string</td>
+<td align="center">否</td>
+<td align="left">black</td>
+<td align="left">tabbar上边框的颜色， 仅支持 black/white</td>
+</tr>
+<tr>
+<td align="left"><strong>list</strong></td>
+<td align="left">Array</td>
+<td align="center">是</td>
+<td align="left"></td>
+<td align="left">tab 的列表，详见 list 属性说明，最少2个、最多5个 tab</td>
+</tr>
+<tr>
+<td align="left"><strong>position</strong></td>
+<td align="left">string</td>
+<td align="center">否</td>
+<td align="left">bottom</td>
+<td align="left">可选值bottom、top</td>
+</tr>
+</tbody></table>
+<p><strong>其中 list 接受一个数组，数组中的每个项都是一个对象，其属性值如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">类型</th>
+<th align="left">必填</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>pagePath</strong></td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">页面路径，必须在pages中先定义</td>
+</tr>
+<tr>
+<td align="left"><strong>text</strong></td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">tab上按钮文字</td>
+</tr>
+<tr>
+<td align="left"><strong>iconPath</strong></td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片</td>
+</tr>
+<tr>
+<td align="left"><strong>selectedIconPath</strong></td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效</td>
+</tr>
+</tbody></table>
+<p><img src="https://developers.weixin.qq.com/miniprogram/dev/image/tabbar.png?t=2018723" alt="图片属性说明"></p>
+<h5 id="networkTimeout-属性"><a href="#networkTimeout-属性" class="headerlink" title="networkTimeout    属性"></a>networkTimeout    属性</h5><p>可以设置各种网络请求的超时时间。</p>
+<p><strong>属性说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="right">类型</th>
+<th align="center">必填</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>request</strong></td>
+<td align="right">Number</td>
+<td align="center">否</td>
+<td align="left">wx.request的超时时间，单位毫秒，默认为：60000</td>
+</tr>
+<tr>
+<td align="left"><strong>connectSocket</strong></td>
+<td align="right">Number</td>
+<td align="center">否</td>
+<td align="left">wx.connectSocket的超时时间，单位毫秒，默认为：60000</td>
+</tr>
+<tr>
+<td align="left"><strong>uploadFile</strong></td>
+<td align="right">Number</td>
+<td align="center">否</td>
+<td align="left">wx.uploadFile的超时时间，单位毫秒，默认为：60000</td>
+</tr>
+<tr>
+<td align="left"><strong>downloadFile</strong></td>
+<td align="right">Number</td>
+<td align="center">否</td>
+<td align="left">wx.downloadFile的超时时间，单位毫秒，默认为：60000</td>
+</tr>
+</tbody></table>
+<h5 id="debug属性"><a href="#debug属性" class="headerlink" title="debug属性"></a>debug属性</h5><p>可以在开发者工具中开启debug模式，在开发者工具的控制面板，调试信息以 info    的形式给出，其信息有page 的注册，页面路由，数据更新，事件触发。可以帮助开发者快速定位一些常见的问题。</p>
+<h4 id="page-json"><a href="#page-json" class="headerlink" title="page.json"></a>page.json</h4><p>每一个小程序页面也可以使用.json文件来对本页面的窗口表现进行配置。 页面的配置比app.json全局配置简单得多，只是设置 app.json 中的 window 配置项的内容，页面中配置项会覆盖 app.json 的 window 中相同的配置项。</p>
+<p>页面的.json只能设置 window 相关的配置项，以决定本页面的窗口表现，所以无需写 window 这个键。</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="right">类型</th>
+<th align="center">默认值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>navigationBarBackgroundColor</strong></td>
+<td align="right">HexColor</td>
+<td align="center"><code>#000000</code></td>
+<td align="left">导航栏背景颜色，如”#000000”</td>
+</tr>
+<tr>
+<td align="left"><strong>navigationBarTextStyle</strong></td>
+<td align="right">string</td>
+<td align="center"><code>white</code></td>
+<td align="left">导航栏标题颜色，仅支持 black/white</td>
+</tr>
+<tr>
+<td align="left"><strong>navigationBarTitleText</strong></td>
+<td align="right">string</td>
+<td align="center"></td>
+<td align="left">导航栏标题文字内容</td>
+</tr>
+<tr>
+<td align="left"><strong>navigationStyle</strong></td>
+<td align="right">string</td>
+<td align="center"><code>default</code></td>
+<td align="left">导航栏样式，仅支持 default/custom。custom 模式可自定义导航栏，只保留右上角胶囊状的按钮,<strong>微信版本6.6.0</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>backgroundColor</strong></td>
+<td align="right">HexColor</td>
+<td align="center"><code>#ffffff</code></td>
+<td align="left">下拉窗口的背景色</td>
+</tr>
+<tr>
+<td align="left"><strong>backgroundTextStyle</strong></td>
+<td align="right">string</td>
+<td align="center"><code>dark</code></td>
+<td align="left">下拉loading的样式，仅支持dark/light</td>
+</tr>
+<tr>
+<td align="left"><strong>backgroundColorTop</strong></td>
+<td align="right">string</td>
+<td align="center"><code>#ffffff</code></td>
+<td align="left">顶部窗口的背景色，仅ios支持,<strong>微信版本6.5.16</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>backgroundColorBottom</strong></td>
+<td align="right">string</td>
+<td align="center"><code>#ffffff</code></td>
+<td align="left">底部窗口的背景色，仅ios支持,<strong>微信版本6.5.16</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>enablePullDownRefresh</strong></td>
+<td align="right">Boolean</td>
+<td align="center"><code>false</code></td>
+<td align="left">是否开启下拉刷新</td>
+</tr>
+<tr>
+<td align="left"><strong>onReachBottomDistance</strong></td>
+<td align="right">Number</td>
+<td align="center"><code>50</code></td>
+<td align="left">页面上拉触底事件触发时距页面底部距离，单位为px</td>
+</tr>
+<tr>
+<td align="left"><strong>disableScroll</strong></td>
+<td align="right">Boolean</td>
+<td align="center"><code>false</code></td>
+<td align="left">设置为 true 则页面整体不能上下滚动；只在 page.json 中有效，无法在 app.json 中设置该项</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechatpay.jpg" alt="ZYJ 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.jpg" alt="ZYJ 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/微信/" rel="tag"># 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/18/小程序开发快捷键/" rel="next" title="小程序开发快捷键">
+                <i class="fa fa-chevron-left"></i> 小程序开发快捷键
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/29/git命令复习/" rel="prev" title="git命令复习">
+                git命令复习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/kd.jpg" alt="ZYJ">
+            
+              <p class="site-author-name" itemprop="name">ZYJ</p>
+              <p class="site-description motion-element" itemprop="description">代码改变世界</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-文件类型"><span class="nav-number">1.</span> <span class="nav-text">1. 文件类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON配置"><span class="nav-number">2.</span> <span class="nav-text">JSON配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小程序全局配置文件-app-json"><span class="nav-number">2.1.</span> <span class="nav-text">小程序全局配置文件 app.json</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#pages-属性"><span class="nav-number">2.1.1.</span> <span class="nav-text">pages 属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#windows属性"><span class="nav-number">2.1.2.</span> <span class="nav-text">windows属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tabBar属性"><span class="nav-number">2.1.3.</span> <span class="nav-text">tabBar属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#networkTimeout-属性"><span class="nav-number">2.1.4.</span> <span class="nav-text">networkTimeout    属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#debug属性"><span class="nav-number">2.1.5.</span> <span class="nav-text">debug属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#page-json"><span class="nav-number">2.2.</span> <span class="nav-text">page.json</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZYJ</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'elxcKDUsVTgzLhhKNvMduwN3-9Nh9j0Va',
+      appKey: 'zdnLjAL0RoknTrvJxmGzHYxV',
+      placeholder: '请填写评论',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
